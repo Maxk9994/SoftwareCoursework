@@ -146,4 +146,10 @@ public partial class MainViewModel : BaseViewModel
             IsBusy = false;
         }
     }
+
+    [RelayCommand]
+private async Task NavigateToItemsAsync()
+{
+    await _navigationService.NavigateToAsync("ItemListPage");
+}
 }

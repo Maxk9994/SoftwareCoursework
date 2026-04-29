@@ -1,4 +1,5 @@
 ﻿using StarterApp.ViewModels;
+using StarterApp.Views;
 
 namespace StarterApp;
 
@@ -8,5 +9,7 @@ public partial class AppShell : Shell
 	{	
 		BindingContext = viewModel;
 		InitializeComponent();
+
+		Routing.RegisterRoute(nameof(ItemListPage), typeof(ItemListPage));
 	}
 }

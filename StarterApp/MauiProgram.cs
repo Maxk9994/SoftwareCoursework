@@ -34,6 +34,7 @@ public static class MauiProgram
 
             builder.Services.AddSingleton(httpClient);
             builder.Services.AddSingleton<IAuthenticationService, ApiAuthenticationService>();
+            builder.Services.AddSingleton<ItemService>();
         }
         else
         {
@@ -67,6 +68,9 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<TempViewModel>();
         builder.Services.AddTransient<TempPage>();
+
+        builder.Services.AddTransient<ItemListViewModel>();
+        builder.Services.AddTransient<ItemListPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

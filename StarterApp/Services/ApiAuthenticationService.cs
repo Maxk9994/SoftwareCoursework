@@ -34,6 +34,9 @@ public class ApiAuthenticationService : IAuthenticationService
             }
 
             var token = await response.Content.ReadFromJsonAsync<TokenResponse>();
+            await SecureStorage.SetAsync("jwt_token", token!.Token);
+            await SecureStorage.SetAsync("jwt_expires", token.ExpiresAt.ToString("O"));
+            await SecureStorage.SetAsync("user_id", token.UserId.ToString());
             _httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token!.Token);
 
@@ -90,6 +93,11 @@ public class ApiAuthenticationService : IAuthenticationService
         _currentUser = null;
         _currentUserRoles.Clear();
         _httpClient.DefaultRequestHeaders.Authorization = null;
+
+        SecureStorage.Remove("jwt_token");
+        SecureStorage.Remove("jwt_expires");
+        SecureStorage.Remove("user_id");
+
         AuthenticationStateChanged?.Invoke(this, false);
         return Task.CompletedTask;
     }
@@ -109,6 +117,17 @@ public class ApiAuthenticationService : IAuthenticationService
         return Task.FromResult(false);
     }
 
+    private async Task<bool> IsTokenExpiredAsync()
+    {
+    var expiryText = await SecureStorage.GetAsync("jwt_expires");
+
+    if (string.IsNullOrWhiteSpace(expiryText))
+        return true;
+
+    var expiry = DateTime.Parse(expiryText).ToUniversalTime();
+
+    return DateTime.UtcNow >= expiry;
+    }
     // --- API response DTOs ---
 
     private record TokenResponse(string Token, DateTime ExpiresAt, int UserId);

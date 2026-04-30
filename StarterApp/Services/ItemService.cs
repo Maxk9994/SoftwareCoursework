@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Text.Json;
 using StarterApp.Database.Models;
 
 namespace StarterApp.Services;
@@ -16,11 +17,21 @@ public class ItemService
     {
         var response = await _httpClient.GetAsync("items");
 
+        var json = await response.Content.ReadAsStringAsync();
+
         if (!response.IsSuccessStatusCode)
-            return new List<Item>();
+            throw new Exception($"API failed: {response.StatusCode} - {json}");
 
-        var result = await response.Content.ReadFromJsonAsync<ItemResponse>();
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
 
-        return result?.Items ?? new List<Item>();
+        var result = JsonSerializer.Deserialize<ItemResponse>(json, options);
+
+        if (result == null)
+            throw new Exception("API returned null result");
+
+        return result.Items;
     }
 }

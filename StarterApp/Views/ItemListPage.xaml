@@ -4,6 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Items">
 
+    <VerticalStackLayout>
+    <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+
     <CollectionView ItemsSource="{Binding Items}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
@@ -18,5 +21,6 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
+</VerticalStackLayout>
 
 </ContentPage>

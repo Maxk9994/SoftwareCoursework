@@ -9,7 +9,7 @@ namespace StarterApp.ViewModels;
 public partial class ItemListViewModel : ObservableObject
 {
     private readonly ItemService _itemService;
-
+    
     [ObservableProperty]
     private ObservableCollection<Item> items = new();
 

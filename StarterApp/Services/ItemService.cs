@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using StarterApp.Database.Models;
+using StarterApp.Services;
 
 namespace StarterApp.Services;
 
@@ -33,5 +34,23 @@ public class ItemService
             throw new Exception("API returned null result");
 
         return result.Items;
+    }
+
+     public async Task CreateItemAsync(CreateItemRequest item, string token)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, "items");
+
+        request.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", token);
+
+        request.Content = JsonContent.Create(item);
+
+        var response = await _httpClient.SendAsync(request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Create item failed: {error}");
+        }
     }
 }

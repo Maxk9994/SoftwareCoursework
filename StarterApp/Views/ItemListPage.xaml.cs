@@ -18,4 +18,9 @@ public partial class ItemListPage : ContentPage
         base.OnAppearing();
         await _viewModel.LoadItemsCommand.ExecuteAsync(null);
     }
+
+    private async void OnCreateItemClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(CreateItemPage));
+    }
 }

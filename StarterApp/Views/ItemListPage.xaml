@@ -6,7 +6,9 @@
 
     <VerticalStackLayout>
     <Label Text="{Binding ErrorMessage}" TextColor="Red" />
-
+    <Button Text="Create Item"
+            Clicked="OnCreateItemClicked" />
+        
     <CollectionView ItemsSource="{Binding Items}">
         <CollectionView.ItemTemplate>
             <DataTemplate>

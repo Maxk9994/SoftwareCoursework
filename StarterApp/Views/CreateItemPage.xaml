@@ -1,0 +1,42 @@
+<ContentPage
+    x:Class="StarterApp.Views.CreateItemPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Create Item">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Entry Placeholder="Title"
+                   Text="{Binding Title}" />
+
+            <Editor Placeholder="Description"
+                    Text="{Binding Description}"
+                    HeightRequest="100" />
+
+            <Entry Placeholder="Daily Rate"
+                   Keyboard="Numeric"
+                   Text="{Binding DailyRate}" />
+
+            <Entry Placeholder="Category ID"
+                   Keyboard="Numeric"
+                   Text="{Binding CategoryId}" />
+
+            <Entry Placeholder="Latitude"
+                   Keyboard="Numeric"
+                   Text="{Binding Latitude}" />
+
+            <Entry Placeholder="Longitude"
+                   Keyboard="Numeric"
+                   Text="{Binding Longitude}" />
+
+            <Button Text="Create Item"
+                    Command="{Binding CreateItemCommand}" />
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

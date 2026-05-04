@@ -48,7 +48,7 @@ public partial class CreateItemViewModel : ObservableObject
             if (!double.TryParse(Longitude, out var parsedLongitude))
                 throw new Exception("Longitude must be a number.");
 
-            var token = await SecureStorage.GetAsync("auth_token");
+            var token = await SecureStorage.GetAsync("jwt_token");
 
             if (string.IsNullOrWhiteSpace(token))
                 throw new Exception("You must be logged in to create an item.");

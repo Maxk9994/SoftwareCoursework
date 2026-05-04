@@ -36,21 +36,16 @@ public class ItemService
         return result.Items;
     }
 
-     public async Task CreateItemAsync(CreateItemRequest item, string token)
-    {
-        var request = new HttpRequestMessage(HttpMethod.Post, "items");
+    public async Task<Item?> CreateItemAsync(CreateItemRequest request, string token)
+{
+    _httpClient.DefaultRequestHeaders.Authorization =
+        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-        request.Headers.Authorization =
-            new AuthenticationHeaderValue("Bearer", token);
+    var response = await _httpClient.PostAsJsonAsync("items", request);
 
-        request.Content = JsonContent.Create(item);
+    if (!response.IsSuccessStatusCode)
+        return null;
 
-        var response = await _httpClient.SendAsync(request);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            var error = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Create item failed: {error}");
-        }
-    }
+    return await response.Content.ReadFromJsonAsync<Item>();
+}
 }

@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using StarterApp.Models;
+using StarterApp.Database.Models;
 using StarterApp.Services;
 
 namespace StarterApp.ViewModels;

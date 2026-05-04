@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
+using StarterApp.Views;
 
 namespace StarterApp.ViewModels;
 
@@ -46,5 +47,19 @@ public partial class ItemListViewModel : ObservableObject
         {
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    private async Task GoToItemDetailAsync(Item item)
+    {
+        if (item == null)
+            return;
+
+        await Shell.Current.GoToAsync(
+            nameof(ItemDetailPage),
+            new Dictionary<string, object>
+            {
+                ["Item"] = item
+            });
     }
 }

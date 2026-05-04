@@ -9,4 +9,13 @@ public partial class CreateItemPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is CreateItemViewModel vm)
+        {
+            await vm.LoadCategoriesAsync();
+        }
+    }
 }

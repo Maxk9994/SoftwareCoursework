@@ -2,27 +2,47 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
+using System.Collections.ObjectModel;
 
 namespace StarterApp.ViewModels;
 
 public partial class CreateItemViewModel : ObservableObject
 {
     private readonly ItemService _itemService;
-    private readonly IAuthenticationService _authService;
 
     [ObservableProperty] private string title = "";
     [ObservableProperty] private string description = "";
     [ObservableProperty] private string dailyRate = "";
-    [ObservableProperty] private string categoryId = "";
     [ObservableProperty] private string latitude = "55.9533";
     [ObservableProperty] private string longitude = "-3.1883";
     [ObservableProperty] private string errorMessage = "";
     [ObservableProperty] private bool isBusy;
 
+    public ObservableCollection<Category> Categories { get; } = new();
+
+    [ObservableProperty]
+    private Category? selectedCategory;
+
     public CreateItemViewModel(ItemService itemService, IAuthenticationService authService)
     {
         _itemService = itemService;
-        _authService = authService;
+    }
+
+    public async Task LoadCategoriesAsync()
+    {
+        try
+        {
+            Categories.Clear();
+
+            var categories = await _itemService.GetCategoriesAsync();
+
+            foreach (var category in categories)
+                Categories.Add(category);
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Failed to load categories: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -39,8 +59,8 @@ public partial class CreateItemViewModel : ObservableObject
             if (!decimal.TryParse(DailyRate, out var parsedRate))
                 throw new Exception("Daily rate must be a number.");
 
-            if (!int.TryParse(CategoryId, out var parsedCategoryId))
-                throw new Exception("Category ID must be a number.");
+            if (SelectedCategory == null)
+                throw new Exception("Please select a category.");
 
             if (!double.TryParse(Latitude, out var parsedLatitude))
                 throw new Exception("Latitude must be a number.");
@@ -58,7 +78,7 @@ public partial class CreateItemViewModel : ObservableObject
                 Title = Title,
                 Description = Description,
                 DailyRate = parsedRate,
-                CategoryId = parsedCategoryId,
+                CategoryId = SelectedCategory.Id,
                 Latitude = parsedLatitude,
                 Longitude = parsedLongitude
             };

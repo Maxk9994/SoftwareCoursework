@@ -18,9 +18,10 @@
                    Keyboard="Numeric"
                    Text="{Binding DailyRate}" />
 
-            <Entry Placeholder="Category ID"
-                   Keyboard="Numeric"
-                   Text="{Binding CategoryId}" />
+            <Picker Title="Select category"
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding SelectedCategory}"
+                    ItemDisplayBinding="{Binding Name}" />
 
             <Entry Placeholder="Latitude"
                    Keyboard="Numeric"

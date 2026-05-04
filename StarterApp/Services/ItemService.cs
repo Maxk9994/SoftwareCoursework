@@ -16,7 +16,7 @@ public class ItemService
 
     public async Task<List<Item>> GetItemsAsync()
     {
-        var response = await _httpClient.GetAsync("items");
+        var response = await _httpClient.GetAsync("item");
 
         var json = await response.Content.ReadAsStringAsync();
 
@@ -32,7 +32,7 @@ public class ItemService
 
         if (result == null)
             throw new Exception("API returned null result");
-
+            Console.WriteLine($"Loaded items: {result.Items.Count}");
         return result.Items;
     }
 
@@ -47,5 +47,17 @@ public class ItemService
         return null;
 
     return await response.Content.ReadFromJsonAsync<Item>();
+}
+
+public async Task<List<Category>> GetCategoriesAsync()
+{
+    var response = await _httpClient.GetAsync("categories");
+
+    if (!response.IsSuccessStatusCode)
+        throw new Exception("Failed to load categories");
+
+    var result = await response.Content.ReadFromJsonAsync<CategoryResponse>();
+
+    return result?.Categories ?? new List<Category>();
 }
 }

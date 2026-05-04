@@ -16,7 +16,7 @@ public class ItemService
 
     public async Task<List<Item>> GetItemsAsync()
     {
-        var response = await _httpClient.GetAsync("item");
+        var response = await _httpClient.GetAsync("items");
 
         var json = await response.Content.ReadAsStringAsync();
 

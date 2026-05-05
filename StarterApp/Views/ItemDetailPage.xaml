@@ -74,6 +74,11 @@
                 Text="{Binding Item.Description}"
                 FontSize="16"
                 LineBreakMode="WordWrap" />
+            <Button
+                Text="Edit Item"
+                IsVisible="{Binding IsOwner}"
+                Command="{Binding EditItemCommand}"
+                Margin="0,20,0,0" />
 
             <Button
                 Text="Request Rental"

@@ -60,4 +60,19 @@ public async Task<List<Category>> GetCategoriesAsync()
 
     return result?.Categories ?? new List<Category>();
 }
+
+public async Task<bool> UpdateItemAsync(int itemId, UpdateItemRequest request, string token)
+{
+    _httpClient.DefaultRequestHeaders.Authorization =
+        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+    var response = await _httpClient.PutAsJsonAsync($"items/{itemId}", request);
+
+    var json = await response.Content.ReadAsStringAsync();
+
+    if (!response.IsSuccessStatusCode)
+        throw new Exception($"Update failed: {response.StatusCode} - {json}");
+
+    return true;
+}
 }

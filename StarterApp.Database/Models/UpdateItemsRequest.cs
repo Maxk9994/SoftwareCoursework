@@ -1,11 +1,10 @@
-namespace StarterApp.Models;
+namespace StarterApp.Database.Models;
 
-public class CreateItemRequest
+public class UpdateItemRequest
 {
     public string Title { get; set; } = "";
     public string Description { get; set; } = "";
     public decimal DailyRate { get; set; }
     public int CategoryId { get; set; }
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
+    public bool IsAvailable { get; set; }
 }

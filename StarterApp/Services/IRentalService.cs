@@ -10,7 +10,7 @@ public interface IRentalService
 
     Task<Rental?> RequestRentalAsync(CreateRentalRequest request, string token);
 
-    Task<Rental?> ApproveRentalAsync(int rentalId, string token);
+    Task<Rental?> ApproveRentalAsync(Rental rental, string token);
 
     Task<Rental?> RejectRentalAsync(int rentalId, string token);
 
@@ -23,4 +23,6 @@ public interface IRentalService
     Task<Rental?> MarkReturnedAsync(int rentalId, string token);
 
     Task<Rental?> CompleteRentalAsync(int rentalId, string token);
+
+    Task<bool> HasDateOverlapAsync(Rental rental, string token);
 }

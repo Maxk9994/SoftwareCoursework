@@ -79,7 +79,8 @@ private async Task ApproveRentalAsync(Rental rental)
         if (string.IsNullOrWhiteSpace(token))
             throw new Exception("You must be logged in to approve rentals.");
 
-        await _rentalService.ApproveRentalAsync(rental.Id, token);
+         //service handles business validation such as double-booking checks.
+        await _rentalService.ApproveRentalAsync(rental, token);
 
         IsBusy = false;
         await LoadRentalsAsync();

@@ -7,4 +7,6 @@ public interface IItemRepository
     Task<List<Item>> GetItemsAsync();
 
     Task<Item?> CreateItemAsync(CreateItemRequest request, string token);
+
+     Task<List<Category>> GetCategoriesAsync();
 }

@@ -54,4 +54,26 @@ public class ItemRepository : IItemRepository
 
         return JsonSerializer.Deserialize<Item>(json, options);
     }
+
+    public async Task<List<Category>> GetCategoriesAsync()
+{
+    var response = await _httpClient.GetAsync("categories");
+
+    var json = await response.Content.ReadAsStringAsync();
+
+    if (!response.IsSuccessStatusCode)
+        throw new Exception($"API failed: {response.StatusCode} - {json}");
+
+    var options = new JsonSerializerOptions
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
+    var result = JsonSerializer.Deserialize<CategoryResponse>(json, options);
+
+    if (result == null)
+        throw new Exception("API returned null category result");
+
+    return result.Categories;
+}
 }

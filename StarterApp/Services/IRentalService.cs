@@ -4,7 +4,9 @@ namespace StarterApp.Services;
 
 public interface IRentalService
 {
-    Task<List<Rental>> GetRentalsAsync(string token);
+    Task<List<Rental>> GetIncomingRentalsAsync(string token);
+
+    Task<List<Rental>> GetOutgoingRentalsAsync(string token);
 
     Task<Rental?> RequestRentalAsync(CreateRentalRequest request, string token);
 

@@ -13,27 +13,49 @@ public class RentalRepository : IRentalRepository
         _httpClient = httpClient;
     }
 
-    public async Task<List<Rental>> GetRentalsAsync(string token)
+   public async Task<List<Rental>> GetIncomingRentalsAsync(string token)
+{
+    _httpClient.DefaultRequestHeaders.Authorization =
+        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+    var response = await _httpClient.GetAsync("rentals/incoming");
+
+    var json = await response.Content.ReadAsStringAsync();
+
+    if (!response.IsSuccessStatusCode)
+        throw new Exception($"Load incoming rentals failed: {response.StatusCode} - {json}");
+
+    var options = new JsonSerializerOptions
     {
-        _httpClient.DefaultRequestHeaders.Authorization =
-            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        PropertyNameCaseInsensitive = true
+    };
 
-        var response = await _httpClient.GetAsync("rentals");
+    var result = JsonSerializer.Deserialize<RentalResponse>(json, options);
 
-        var json = await response.Content.ReadAsStringAsync();
+    return result?.Rentals ?? new List<Rental>();
+}
 
-        if (!response.IsSuccessStatusCode)
-            throw new Exception($"Load rentals failed: {response.StatusCode} - {json}");
+public async Task<List<Rental>> GetOutgoingRentalsAsync(string token)
+{
+    _httpClient.DefaultRequestHeaders.Authorization =
+        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
+    var response = await _httpClient.GetAsync("rentals/outgoing");
 
-        var rentals = JsonSerializer.Deserialize<List<Rental>>(json, options);
+    var json = await response.Content.ReadAsStringAsync();
 
-        return rentals ?? new List<Rental>();
-    }
+    if (!response.IsSuccessStatusCode)
+        throw new Exception($"Load outgoing rentals failed: {response.StatusCode} - {json}");
+
+    var options = new JsonSerializerOptions
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
+    var result = JsonSerializer.Deserialize<RentalResponse>(json, options);
+
+    return result?.Rentals ?? new List<Rental>();
+}
 
     public async Task<Rental?> CreateRentalRequestAsync(CreateRentalRequest request, string token)
     {

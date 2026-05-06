@@ -12,10 +12,15 @@ public class RentalService : IRentalService
         _rentalRepository = rentalRepository;
     }
 
-    public async Task<List<Rental>> GetRentalsAsync(string token)
+    public async Task<List<Rental>> GetIncomingRentalsAsync(string token)
     {
-        return await _rentalRepository.GetRentalsAsync(token);
+    return await _rentalRepository.GetIncomingRentalsAsync(token);
     }
+
+    public async Task<List<Rental>> GetOutgoingRentalsAsync(string token)
+    {
+    return await _rentalRepository.GetOutgoingRentalsAsync(token);
+    }   
 
     public async Task<Rental?> RequestRentalAsync(CreateRentalRequest request, string token)
     {

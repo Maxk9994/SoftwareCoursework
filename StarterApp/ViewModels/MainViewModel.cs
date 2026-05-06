@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
+using StarterApp.Views;
 
 namespace StarterApp.ViewModels;
 
@@ -151,5 +152,11 @@ public partial class MainViewModel : BaseViewModel
 private async Task NavigateToItemsAsync()
 {
     await _navigationService.NavigateToAsync("ItemListPage");
+}
+
+[RelayCommand]
+private async Task NavigateToRentalsAsync()
+{
+    await Shell.Current.GoToAsync(nameof(RentalsPage));
 }
 }

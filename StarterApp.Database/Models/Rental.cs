@@ -34,4 +34,17 @@ public class Rental
     public DateTime RequestedAt { get; set; }
 
     public DateTime? ApprovedAt { get; set; }
+
+    public bool CanApproveOrReject => Status == "Requested";
+
+    public bool CanMarkOutForRent => Status == "Approved";
+
+    public bool CanMarkReturned =>
+    string.Equals(Status, "Out for Rent", StringComparison.OrdinalIgnoreCase)
+    || string.Equals(Status, "OutForRent", StringComparison.OrdinalIgnoreCase)
+    || string.Equals(Status, "Out_For_Rent", StringComparison.OrdinalIgnoreCase)
+    || string.Equals(Status, "out_for_rent", StringComparison.OrdinalIgnoreCase);
+
+
+    public bool CanComplete => Status == "Returned";
 }

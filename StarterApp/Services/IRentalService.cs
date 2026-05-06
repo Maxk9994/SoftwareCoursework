@@ -17,4 +17,10 @@ public interface IRentalService
     decimal CalculateTotalPrice(decimal dailyRate, DateTime startDate, DateTime endDate);
 
     bool IsValidDateRange(DateTime startDate, DateTime endDate);
+
+    Task<Rental?> MarkOutForRentAsync(int rentalId, string token);
+
+    Task<Rental?> MarkReturnedAsync(int rentalId, string token);
+
+    Task<Rental?> CompleteRentalAsync(int rentalId, string token);
 }

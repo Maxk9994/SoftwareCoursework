@@ -54,4 +54,19 @@ public class RentalService : IRentalService
     {
         return endDate.Date > startDate.Date;
     }
+
+    public async Task<Rental?> MarkOutForRentAsync(int rentalId, string token)
+    {
+        return await _rentalRepository.UpdateRentalStatusAsync(rentalId, "Out for Rent", token);
+    }
+
+    public async Task<Rental?> MarkReturnedAsync(int rentalId, string token)
+    {
+        return await _rentalRepository.UpdateRentalStatusAsync(rentalId, "Returned", token);
+    }
+
+    public async Task<Rental?> CompleteRentalAsync(int rentalId, string token)
+    {
+        return await _rentalRepository.UpdateRentalStatusAsync(rentalId, "Completed", token);
+    }
 }

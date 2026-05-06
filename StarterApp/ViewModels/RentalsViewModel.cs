@@ -123,4 +123,97 @@ private async Task RejectRentalAsync(Rental rental)
         IsBusy = false;
     }
 }
+
+[RelayCommand]
+private async Task MarkOutForRentAsync(Rental rental)
+{
+    if (rental == null || IsBusy)
+        return;
+
+    try
+    {
+        IsBusy = true;
+        ErrorMessage = "";
+
+        var token = await SecureStorage.GetAsync("jwt_token");
+
+        if (string.IsNullOrWhiteSpace(token))
+            throw new Exception("You must be logged in to update rentals.");
+
+        await _rentalService.MarkOutForRentAsync(rental.Id, token);
+
+        await Shell.Current.DisplayAlert("Updated", "Rental marked as out for rent.", "OK");
+    }
+    catch (Exception ex)
+    {
+        ErrorMessage = ex.Message;
+    }
+    finally
+    {
+        IsBusy = false;
+        await LoadRentalsAsync();
+    }
+}
+
+[RelayCommand]
+private async Task MarkReturnedAsync(Rental rental)
+{
+    if (rental == null || IsBusy)
+        return;
+
+    try
+    {
+        IsBusy = true;
+        ErrorMessage = "";
+
+        var token = await SecureStorage.GetAsync("jwt_token");
+
+        if (string.IsNullOrWhiteSpace(token))
+            throw new Exception("You must be logged in to update rentals.");
+
+        await _rentalService.MarkReturnedAsync(rental.Id, token);
+
+        await Shell.Current.DisplayAlert("Updated", "Rental marked as returned.", "OK");
+    }
+    catch (Exception ex)
+    {
+        ErrorMessage = ex.Message;
+    }
+    finally
+    {
+        IsBusy = false;
+        await LoadRentalsAsync();
+    }
+}
+
+[RelayCommand]
+private async Task CompleteRentalAsync(Rental rental)
+{
+    if (rental == null || IsBusy)
+        return;
+
+    try
+    {
+        IsBusy = true;
+        ErrorMessage = "";
+
+        var token = await SecureStorage.GetAsync("jwt_token");
+
+        if (string.IsNullOrWhiteSpace(token))
+            throw new Exception("You must be logged in to update rentals.");
+
+        await _rentalService.CompleteRentalAsync(rental.Id, token);
+
+        await Shell.Current.DisplayAlert("Updated", "Rental completed.", "OK");
+    }
+    catch (Exception ex)
+    {
+        ErrorMessage = ex.Message;
+    }
+    finally
+    {
+        IsBusy = false;
+        await LoadRentalsAsync();
+    }
+}
 }

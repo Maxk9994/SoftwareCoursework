@@ -67,6 +67,20 @@
                                         Command="{Binding BindingContext.RejectRentalCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                         CommandParameter="{Binding .}" />
                                 </HorizontalStackLayout>
+                                    <Button
+                                        Text="Mark Out for Rent"
+                                        IsVisible="{Binding CanMarkOutForRent}"
+                                        Command="{Binding BindingContext.MarkOutForRentCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}" />
+
+                                    <Button
+                                        Text="Complete"
+                                        IsVisible="{Binding CanComplete}"
+                                        Command="{Binding BindingContext.CompleteRentalCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}" />
+                                
+                                
+
                             </VerticalStackLayout>
                         </Border>
                     </DataTemplate>
@@ -113,6 +127,12 @@
                                 <Label
                                     Text="{Binding TotalPrice, StringFormat='Total: £{0:F2}'}"
                                     FontAttributes="Bold" />
+                                <Button
+                                    Text="Mark Returned"
+                                    IsVisible="{Binding CanMarkReturned}"
+                                    Command="{Binding BindingContext.MarkReturnedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                    CommandParameter="{Binding .}" />
+                            
                             </VerticalStackLayout>
                         </Border>
                     </DataTemplate>

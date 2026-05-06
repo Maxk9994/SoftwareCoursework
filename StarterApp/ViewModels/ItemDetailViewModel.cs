@@ -73,4 +73,18 @@ private async Task RequestRentalAsync()
     {
         OnPropertyChanged(nameof(CanRequestRental));
     }
+
+    [RelayCommand]
+    private async Task ViewReviewsAsync()
+    {
+        if (Item == null)
+            return;
+
+        await Shell.Current.GoToAsync(
+            nameof(ReviewsPage),
+            new Dictionary<string, object>
+            {
+                ["Item"] = Item
+            });
+}
 }

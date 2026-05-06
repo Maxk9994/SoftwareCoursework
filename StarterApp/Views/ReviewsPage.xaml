@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="StarterApp.Views.ReviewsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Reviews">
+
+    <VerticalStackLayout Padding="20" Spacing="12">
+
+        <Label
+            Text="{Binding Item.Title}"
+            FontSize="24"
+            FontAttributes="Bold" />
+
+        <Button
+            Text="Refresh Reviews"
+            Command="{Binding LoadReviewsCommand}" />
+
+        <Label
+            Text="{Binding ErrorMessage}"
+            TextColor="Red" />
+
+        <CollectionView ItemsSource="{Binding Reviews}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="12" Margin="0,6">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label
+                                Text="{Binding Rating, StringFormat='Rating: {0}/5'}"
+                                FontAttributes="Bold"
+                                FontSize="18" />
+
+                            <Label
+                                Text="{Binding Comment}"
+                                LineBreakMode="WordWrap" />
+
+                            <Label
+                                Text="{Binding ReviewerName, StringFormat='By: {0}'}"
+                                FontSize="13"
+                                TextColor="Gray" />
+
+                            <Label
+                                Text="{Binding CreatedAt, StringFormat='Posted: {0:dd MMM yyyy}'}"
+                                FontSize="13"
+                                TextColor="Gray" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

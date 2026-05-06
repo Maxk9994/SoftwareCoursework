@@ -38,6 +38,8 @@ public static class MauiProgram
             builder.Services.AddSingleton<IRentalService, RentalService>();
             builder.Services.AddSingleton<IItemRepository, ItemRepository>();
             builder.Services.AddSingleton<IRentalRepository, RentalRepository>();
+            builder.Services.AddSingleton<IReviewRepository, ReviewRepository>();
+            builder.Services.AddSingleton<IReviewService, ReviewService>();
         }
         else
         {
@@ -89,6 +91,12 @@ public static class MauiProgram
 
         builder.Services.AddTransient<RentalsViewModel>();
         builder.Services.AddTransient<RentalsPage>();
+
+        builder.Services.AddTransient<ReviewsPage>();
+        builder.Services.AddTransient<CreateReviewPage>();
+
+        builder.Services.AddTransient<ReviewsViewModel>();
+        builder.Services.AddTransient<ReviewsPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

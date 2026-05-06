@@ -1,6 +1,6 @@
 using StarterApp.Database.Models;
 
-namespace StarterApp.Services;
+namespace StarterApp.Database.Models;
 
 public class ItemResponse
 {

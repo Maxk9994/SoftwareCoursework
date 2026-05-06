@@ -4,12 +4,13 @@ using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
 using StarterApp.Views;
+using StarterApp.Database.Data.Repositories;
 
 namespace StarterApp.ViewModels;
 
 public partial class ItemListViewModel : ObservableObject
 {
-    private readonly ItemService _itemService;
+    private readonly IItemRepository _itemRepository;
     
     [ObservableProperty]
     private ObservableCollection<Item> items = new();
@@ -20,9 +21,9 @@ public partial class ItemListViewModel : ObservableObject
     [ObservableProperty]
     private string errorMessage = "";
 
-    public ItemListViewModel(ItemService itemService)
+    public ItemListViewModel(IItemRepository itemRepository)
     {
-        _itemService = itemService;
+        _itemRepository = itemRepository;
     }
 
     [RelayCommand]
@@ -36,7 +37,7 @@ public partial class ItemListViewModel : ObservableObject
             IsBusy = true;
             ErrorMessage = "";
 
-            var itemList = await _itemService.GetItemsAsync();
+            var itemList = await _itemRepository.GetItemsAsync();
             Items = new ObservableCollection<Item>(itemList);
         }
         catch (Exception ex)

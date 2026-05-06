@@ -3,12 +3,13 @@ using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
 using System.Collections.ObjectModel;
+using StarterApp.Database.Data.Repositories;
 
 namespace StarterApp.ViewModels;
 
 public partial class EditItemViewModel : ObservableObject, IQueryAttributable
 {
-    private readonly ItemService _itemService;
+    private readonly IItemRepository _itemRepository;
 
     private int itemId;
 
@@ -24,9 +25,9 @@ public partial class EditItemViewModel : ObservableObject, IQueryAttributable
     [ObservableProperty]
     private Category? selectedCategory;
 
-    public EditItemViewModel(ItemService itemService)
+    public EditItemViewModel(IItemRepository itemRepository)
     {
-        _itemService = itemService;
+        _itemRepository = itemRepository;
     }
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -49,7 +50,7 @@ public partial class EditItemViewModel : ObservableObject, IQueryAttributable
         {
             Categories.Clear();
 
-            var categories = await _itemService.GetCategoriesAsync();
+            var categories = await _itemRepository.GetCategoriesAsync();
 
             foreach (var category in categories)
                 Categories.Add(category);
@@ -93,7 +94,7 @@ public partial class EditItemViewModel : ObservableObject, IQueryAttributable
                 IsAvailable = IsAvailable
             };
 
-            await _itemService.UpdateItemAsync(itemId, request, token);
+            await _itemRepository.UpdateItemAsync(itemId, request, token);
 
             await Shell.Current.GoToAsync("../..");
         }

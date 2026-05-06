@@ -3,18 +3,19 @@ using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
 using System.Collections.ObjectModel;
+using StarterApp.Database.Data.Repositories;
 
 namespace StarterApp.ViewModels;
 
 public partial class CreateItemViewModel : ObservableObject
 {
-    private readonly ItemService _itemService;
+    private readonly IItemRepository _itemRepository;;
 
     [ObservableProperty] private string title = "";
     [ObservableProperty] private string description = "";
     [ObservableProperty] private string dailyRate = "";
-    [ObservableProperty] private string latitude = "55.9533";
-    [ObservableProperty] private string longitude = "-3.1883";
+    [ObservableProperty] private string latitude = "";
+    [ObservableProperty] private string longitude = "";
     [ObservableProperty] private string errorMessage = "";
     [ObservableProperty] private bool isBusy;
 
@@ -23,9 +24,9 @@ public partial class CreateItemViewModel : ObservableObject
     [ObservableProperty]
     private Category? selectedCategory;
 
-    public CreateItemViewModel(ItemService itemService, IAuthenticationService authService)
+    public CreateItemViewModel(IItemRepository itemRepository, IAuthenticationService authService)
     {
-        _itemService = itemService;
+        _itemRepository = itemRepository;
     }
 
     public async Task LoadCategoriesAsync()
@@ -34,7 +35,7 @@ public partial class CreateItemViewModel : ObservableObject
         {
             Categories.Clear();
 
-            var categories = await _itemService.GetCategoriesAsync();
+            var categories = await _itemRepository.GetCategoriesAsync();
 
             foreach (var category in categories)
                 Categories.Add(category);
@@ -83,7 +84,7 @@ public partial class CreateItemViewModel : ObservableObject
                 Longitude = parsedLongitude
             };
 
-            await _itemService.CreateItemAsync(item, token);
+            await _itemRepository.CreateItemAsync(item, token);
 
             await Shell.Current.GoToAsync("..");
         }

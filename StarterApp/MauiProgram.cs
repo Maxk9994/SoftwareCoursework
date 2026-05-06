@@ -3,6 +3,7 @@ using StarterApp.ViewModels;
 using StarterApp.Database.Data;
 using StarterApp.Views;
 using StarterApp.Services;
+using StarterApp.Database.Data.Repositories;
 
 namespace StarterApp;
 
@@ -35,6 +36,8 @@ public static class MauiProgram
             builder.Services.AddSingleton(httpClient);
             builder.Services.AddSingleton<IAuthenticationService, ApiAuthenticationService>();
             builder.Services.AddSingleton<ItemService>();
+            
+            builder.Services.AddTransient<IItemRepository, ItemRepository>();
         }
         else
         {

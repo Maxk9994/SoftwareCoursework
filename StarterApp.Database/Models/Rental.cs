@@ -47,4 +47,11 @@ public class Rental
 
 
     public bool CanComplete => Status == "Returned";
+
+    /// <summary>
+/// Determines whether the current user can submit a review for this rental.
+/// Reviews are only allowed after the rental has been completed.
+/// </summary>
+public bool CanReview =>
+    string.Equals(Status, "Completed", StringComparison.OrdinalIgnoreCase);
 }

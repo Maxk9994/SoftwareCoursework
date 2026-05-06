@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
 using StarterApp.Services;
 using System.Collections.ObjectModel;
-
+using StarterApp.Views;
 namespace StarterApp.ViewModels;
 
 public partial class RentalsViewModel : ObservableObject
@@ -217,4 +217,23 @@ private async Task CompleteRentalAsync(Rental rental)
         await LoadRentalsAsync();
     }
 }
-}
+    /// <summary>
+    /// Opens the create review page for a completed outgoing rental.
+    /// </summary>
+    /// <param name="rental">The completed rental to review.</param>
+[RelayCommand]
+
+    private async Task CreateReviewAsync(Rental rental)
+    {
+        if (rental == null)
+            return;
+
+        await Shell.Current.GoToAsync(
+            nameof(CreateReviewPage),
+            new Dictionary<string, object>
+            {
+                ["Rental"] = rental
+            });
+    }
+} 
+

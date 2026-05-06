@@ -132,6 +132,12 @@
                                     IsVisible="{Binding CanMarkReturned}"
                                     Command="{Binding BindingContext.MarkReturnedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                     CommandParameter="{Binding .}" />
+                                
+                                <Button
+                                    Text="Leave Review"
+                                    IsVisible="{Binding CanReview}"
+                                    Command="{Binding BindingContext.CreateReviewCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                    CommandParameter="{Binding .}" />
                             
                             </VerticalStackLayout>
                         </Border>

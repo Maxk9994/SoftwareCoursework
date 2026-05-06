@@ -1,15 +1,13 @@
 namespace StarterApp.Database.Models;
 
 /// <summary>
-/// Represents feedback left by a borrower after a completed rental.
+/// Represents feedback left by a user after a completed rental.
 /// </summary>
 public class Review
 {
     public int Id { get; set; }
 
-    public int ItemId { get; set; }
-
-    public string ItemTitle { get; set; } = "";
+    public int RentalId { get; set; }
 
     public int ReviewerId { get; set; }
 

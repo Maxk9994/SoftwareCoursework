@@ -76,4 +76,24 @@ public class ItemRepository : IItemRepository
 
     return result.Categories;
 }
+
+    public async Task<Item?> UpdateItemAsync(int itemId, UpdateItemRequest request, string token)
+    {
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        var response = await _httpClient.PutAsJsonAsync($"items/{itemId}", request);
+
+        var json = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+            throw new Exception($"Update item failed: {response.StatusCode} - {json}");
+
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        return JsonSerializer.Deserialize<Item>(json, options);
+    }
 }

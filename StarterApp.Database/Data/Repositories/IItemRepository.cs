@@ -1,5 +1,6 @@
 using StarterApp.Database.Models;
 
+
 namespace StarterApp.Database.Data.Repositories;
 
 public interface IItemRepository
@@ -9,4 +10,6 @@ public interface IItemRepository
     Task<Item?> CreateItemAsync(CreateItemRequest request, string token);
 
      Task<List<Category>> GetCategoriesAsync();
+
+     Task<Item?> UpdateItemAsync(int itemId, UpdateItemRequest request, string token);
 }

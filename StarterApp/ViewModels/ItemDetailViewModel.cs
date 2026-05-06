@@ -15,6 +15,8 @@ public partial class ItemDetailViewModel : ObservableObject, IQueryAttributable
     [ObservableProperty]
     private bool isOwner;
 
+    public bool CanRequestRental => !IsOwner && Item != null;
+
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         if (query.TryGetValue("Item", out var selectedItem))
@@ -46,5 +48,29 @@ public partial class ItemDetailViewModel : ObservableObject, IQueryAttributable
             {
                 ["Item"] = Item
             });
+    }
+
+    [RelayCommand]
+private async Task RequestRentalAsync()
+    {
+        if (Item == null || IsOwner)
+            return;
+
+        await Shell.Current.GoToAsync(
+            nameof(CreateRentalPage),
+            new Dictionary<string, object>
+            {
+                ["Item"] = Item
+            });
+    }
+
+    partial void OnIsOwnerChanged(bool value)
+    {
+        OnPropertyChanged(nameof(CanRequestRental));
+    }
+
+    partial void OnItemChanged(Item? value)
+    {
+        OnPropertyChanged(nameof(CanRequestRental));
     }
 }

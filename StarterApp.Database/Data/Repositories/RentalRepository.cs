@@ -40,7 +40,15 @@ public class RentalRepository : IRentalRepository
         _httpClient.DefaultRequestHeaders.Authorization =
             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-        var response = await _httpClient.PostAsJsonAsync("rentals", request);
+        var apiRequest = new
+        {
+        itemId = request.ItemId,
+        startDate = request.StartDate.ToString("yyyy-MM-dd"),
+        endDate = request.EndDate.ToString("yyyy-MM-dd")
+        };
+       
+       
+        var response = await _httpClient.PostAsJsonAsync("rentals", apiRequest);
 
         var json = await response.Content.ReadAsStringAsync();
 

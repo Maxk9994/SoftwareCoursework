@@ -82,7 +82,8 @@
 
             <Button
                 Text="Request Rental"
-                Margin="0,20,0,0" />
+                IsVisible="{Binding CanRequestRental}"
+                Command="{Binding RequestRentalCommand}" />
 
         </VerticalStackLayout>
     </ScrollView>

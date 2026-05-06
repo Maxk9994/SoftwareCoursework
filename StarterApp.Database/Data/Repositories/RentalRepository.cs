@@ -85,28 +85,33 @@ public async Task<List<Rental>> GetOutgoingRentalsAsync(string token)
         return JsonSerializer.Deserialize<Rental>(json, options);
     }
 
-    public async Task<Rental?> UpdateRentalStatusAsync(int rentalId, string status, string token)
+   public async Task<Rental?> UpdateRentalStatusAsync(int rentalId, string status, string token)
+{
+    _httpClient.DefaultRequestHeaders.Authorization =
+        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+    var requestBody = new
     {
-        _httpClient.DefaultRequestHeaders.Authorization =
-            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        status = status
+    };
 
-        var request = new
-        {
-            Status = status
-        };
+    var request = new HttpRequestMessage(HttpMethod.Patch, $"rentals/{rentalId}/status")
+    {
+        Content = JsonContent.Create(requestBody)
+    };
 
-        var response = await _httpClient.PutAsJsonAsync($"rentals/{rentalId}/status", request);
+    var response = await _httpClient.SendAsync(request);
 
-        var json = await response.Content.ReadAsStringAsync();
+    var json = await response.Content.ReadAsStringAsync();
 
-        if (!response.IsSuccessStatusCode)
-            throw new Exception($"Update rental status failed: {response.StatusCode} - {json}");
+    if (!response.IsSuccessStatusCode)
+        throw new Exception($"Update rental status failed: {response.StatusCode} - {json}");
 
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
+    var options = new JsonSerializerOptions
+    {
+        PropertyNameCaseInsensitive = true
+    };
 
-        return JsonSerializer.Deserialize<Rental>(json, options);
-    }
+    return JsonSerializer.Deserialize<Rental>(json, options);
+}
 }

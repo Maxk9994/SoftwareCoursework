@@ -56,6 +56,17 @@
                                 <Label
                                     Text="{Binding TotalPrice, StringFormat='Total: £{0:F2}'}"
                                     FontAttributes="Bold" />
+                                <HorizontalStackLayout Spacing="10" Margin="0,8,0,0">
+                                    <Button
+                                        Text="Approve"
+                                        Command="{Binding BindingContext.ApproveRentalCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}" />
+
+                                    <Button
+                                        Text="Reject"
+                                        Command="{Binding BindingContext.RejectRentalCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}" />
+                                </HorizontalStackLayout>
                             </VerticalStackLayout>
                         </Border>
                     </DataTemplate>

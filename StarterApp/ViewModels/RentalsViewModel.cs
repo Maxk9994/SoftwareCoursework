@@ -62,4 +62,65 @@ public async Task LoadRentalsAsync()
         IsBusy = false;
     }
 }
+
+[RelayCommand]
+private async Task ApproveRentalAsync(Rental rental)
+{
+    if (rental == null || IsBusy)
+        return;
+
+    try
+    {
+        IsBusy = true;
+        ErrorMessage = "";
+
+        var token = await SecureStorage.GetAsync("jwt_token");
+
+        if (string.IsNullOrWhiteSpace(token))
+            throw new Exception("You must be logged in to approve rentals.");
+
+        await _rentalService.ApproveRentalAsync(rental.Id, token);
+
+        IsBusy = false;
+        await LoadRentalsAsync();
+    }
+    catch (Exception ex)
+    {
+        ErrorMessage = ex.Message;
+    }
+    finally
+    {
+        IsBusy = false;
+    }
+}
+
+[RelayCommand]
+private async Task RejectRentalAsync(Rental rental)
+{
+    if (rental == null || IsBusy)
+        return;
+
+    try
+    {
+        IsBusy = true;
+        ErrorMessage = "";
+
+        var token = await SecureStorage.GetAsync("jwt_token");
+
+        if (string.IsNullOrWhiteSpace(token))
+            throw new Exception("You must be logged in to reject rentals.");
+
+        await _rentalService.RejectRentalAsync(rental.Id, token);
+        IsBusy = false;
+        await LoadRentalsAsync();
+    }
+    catch (Exception ex)
+    {
+        ErrorMessage = ex.Message;
+    }
+    finally
+    {
+        IsBusy = false;
+    }
+}
 }

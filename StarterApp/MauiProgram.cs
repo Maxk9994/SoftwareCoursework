@@ -35,8 +35,9 @@ public static class MauiProgram
 
             builder.Services.AddSingleton(httpClient);
             builder.Services.AddSingleton<IAuthenticationService, ApiAuthenticationService>();
-            builder.Services.AddSingleton<ItemService>();
+            
             builder.Services.AddSingleton<IItemRepository, ItemRepository>();
+            builder.Services.AddSingleton<IRentalRepository, RentalRepository>();
         }
         else
         {

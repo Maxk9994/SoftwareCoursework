@@ -53,12 +53,7 @@ jobs:
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
 
       - name: Generate coverage report
-        run: |
-          reportgenerator `
-            -reports:"StarterApp.Tests/TestResults/**/coverage.cobertura.xml" `
-            -targetdir:"coverage-report" `
-            -reporttypes:"Html;MarkdownSummaryGithub"
-            -filefilters:"-*/Migrations/*;-*/Platforms/*;-*/Resources/*;-*/App.xaml.cs;-*/MauiProgram.cs;-*/AppShell.xaml.cs"
+        run: reportgenerator -reports:"StarterApp.Tests/TestResults/**/coverage.cobertura.xml" -targetdir:"coverage-report" -reporttypes:"Html;MarkdownSummaryGithub" -filefilters:"-*/Migrations/*;-*/Platforms/*;-*/Resources/*;-*/App.xaml.cs;-*/MauiProgram.cs;-*/AppShell.xaml.cs"
 
       - name: Show coverage summary in GitHub
         shell: pwsh

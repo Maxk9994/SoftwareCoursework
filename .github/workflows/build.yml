@@ -58,6 +58,7 @@ jobs:
             -reports:"StarterApp.Tests/TestResults/**/coverage.cobertura.xml" `
             -targetdir:"coverage-report" `
             -reporttypes:"Html;MarkdownSummaryGithub"
+            -filefilters:"-*/Migrations/*;-*/Platforms/*;-*/Resources/*;-*/App.xaml.cs;-*/MauiProgram.cs;-*/AppShell.xaml.cs"
 
       - name: Show coverage summary in GitHub
         shell: pwsh

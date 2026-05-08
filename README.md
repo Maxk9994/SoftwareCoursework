@@ -1,20 +1,19 @@
----
-title: "StarterApp readme"
-parent: StarterApp
-grand_parent: C# practice
-nav_order: 5
-mermaid: true
----
+# RentalApp
 
-# StarterApp
+The purpose of this app is to create a rental app where users can list items (tools, camping gear, board games) for rent, discover items near their location using spatial search, request rentals from item owners, and provide feedback through reviews.
+Implemented features are:
+- User registration and login
+- Local authentication
+- Role-based security
+- Item listing and browsing
+- Rental request management
+- Review system
+- PostgreSQL database integration
+- Entity Framework Core migrations
+- Repository and service-based architecture
+- Unit testing
+- GitHub Actions build and test workflow
 
-The purpose of this app is to act as a starting point for further development. It provides some
-basic features including:
-
-* Database integration and migrations
-* Role-based security
-* Local authentication
-* Example navigation
 
 This version of the app uses PostgreSQL for data storage and Entity Framework Core for object-relational mapping
 and migrations.
@@ -22,9 +21,7 @@ and migrations.
 To fully understand how it works, you should follow an appropriate set of tutorials such as 
 [this one](https://edinburgh-napier.github.io/SET09102/tutorials/csharp/) which covers all of the main
 concepts and techniques used here. However, if you want to jump straight in and work out any problems
-as you go along, that will also work. The code uses structured comments for use with the 
-[Doxygen](https://www.doxygen.nl/) documentation generator tool. 
-
+as you go along, that will also work.
 You can use any development environment with this project including
 
 * [Rider](https://www.jetbrains.com/rider/)
@@ -37,10 +34,12 @@ The instructions assume you will be using VSCode since that is a lowest-common-d
 
 This app is built using the following tool versions.
 
-| Name                                                                                      | Version     |
-|-------------------------------------------------------------------------------------------|-------------|
-| [.NET](https://dotnet.microsoft.com/en-us/)                                               | 8.0 / 9.0   |
-| [PostgreSQL Docker image](https://hub.docker.com/_/postgres)                              | 16          |
+| Name | Version |
+|---|---|
+| .NET | 10.0 Preview / 8.0 or later depending on environment |
+| PostgreSQL Docker image | 16 |
+| Entity Framework Core | Project dependency version |
+| .NET MAUI | Included with .NET workload |
 
 
 ## Getting started
@@ -49,9 +48,12 @@ This app is built using the following tool versions.
 
 Before using this app, ensure you have:
 
-1. **.NET SDK 8.0** or later installed
-2. **Docker** installed and running
-3. **PostgreSQL container** running (see [dev-environment tutorial](https://edinburgh-napier.github.io/SET09102/tutorials/csharp/dev-environment/))
+- .NET SDK
+- .NET MAUI workload
+- Docker Desktop
+- PostgreSQL container
+- Visual Studio Code, Visual Studio, or Rider
+- Git
 
 ### Configuration
 
@@ -84,6 +86,14 @@ Before using this app, ensure you have:
    dotnet build
    dotnet run
    ```
+### Tests
+
+To run tests naviagate to the terminal then run
+
+```bash
+dotnet test StarterApp.Tests/StarterApp.Tests.csproj
+```
+   
 
 ### Tutorial
 

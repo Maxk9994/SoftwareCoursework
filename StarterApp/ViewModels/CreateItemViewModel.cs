@@ -14,8 +14,8 @@ public partial class CreateItemViewModel : ObservableObject
     [ObservableProperty] private string title = "";
     [ObservableProperty] private string description = "";
     [ObservableProperty] private string dailyRate = "";
-    [ObservableProperty] private string latitude = "55.9533";
-    [ObservableProperty] private string longitude = "-3.1883";
+    [ObservableProperty] private string latitude = "";
+    [ObservableProperty] private string longitude = "";
     [ObservableProperty] private string errorMessage = "";
     [ObservableProperty] private bool isBusy;
 

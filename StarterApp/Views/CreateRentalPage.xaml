@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="StarterApp.Views.CreateRentalPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Request Rental">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <Label Text="{Binding Item.Title}"
+                   FontSize="24"
+                   FontAttributes="Bold" />
+
+            <Label Text="{Binding Item.Description}" />
+
+            <Label Text="{Binding Item.DailyRate, StringFormat='£{0:F2} per day'}"
+                   FontAttributes="Bold" />
+
+            <Label Text="Start Date" />
+            <DatePicker Date="{Binding StartDate}" />
+
+            <Label Text="End Date" />
+            <DatePicker Date="{Binding EndDate}" />
+
+            <Label Text="{Binding EstimatedTotal, StringFormat='Estimated total: £{0:F2}'}"
+                   FontSize="18"
+                   FontAttributes="Bold" />
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   IsVisible="{Binding ErrorMessage.Length}" />
+
+            <Button Text="Submit Rental Request"
+                    Command="{Binding SubmitRentalRequestCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

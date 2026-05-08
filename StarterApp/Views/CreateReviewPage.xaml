@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="StarterApp.Views.CreateReviewPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Create Review">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label
+                Text="Review Rental"
+                FontSize="24"
+                FontAttributes="Bold" />
+
+            <Label
+                Text="{Binding Rental.ItemTitle}"
+                FontSize="18"
+                FontAttributes="Bold" />
+
+            <Label Text="Rating" />
+
+            <Picker SelectedItem="{Binding Rating}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:Int32}">
+                        <x:Int32>1</x:Int32>
+                        <x:Int32>2</x:Int32>
+                        <x:Int32>3</x:Int32>
+                        <x:Int32>4</x:Int32>
+                        <x:Int32>5</x:Int32>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Label Text="Comment" />
+
+            <Editor
+                Text="{Binding Comment}"
+                Placeholder="Write your review..."
+                AutoSize="TextChanges"
+                HeightRequest="120" />
+
+            <Label
+                Text="{Binding ErrorMessage}"
+                TextColor="Red" />
+
+            <Button
+                Text="Submit Review"
+                Command="{Binding SubmitReviewCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

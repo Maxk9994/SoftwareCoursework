@@ -47,24 +47,24 @@ jobs:
         run: dotnet build ./StarterApp.Database/StarterApp.Database.csproj --configuration Release --no-restore
 
       - name: Restore test project
-        run: dotnet restore ./StarterApp.Test/StarterApp.Tests.csproj
+        run: dotnet restore ./StarterApp.Tests/StarterApp.Tests.csproj
 
       - name: Build test project
-        run: dotnet build ./StarterApp.Test/StarterApp.Tests.csproj --configuration Release --no-restore
+        run: dotnet build ./StarterApp.Tests/StarterApp.Tests.csproj --configuration Release --no-restore
 
       - name: Run tests with code coverage
-        run: dotnet test ./StarterApp.Test/StarterApp.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./StarterApp.Test/TestResults
+        run: dotnet test ./StarterApp.Tests/StarterApp.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./StarterApp.Test/TestResults
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report
-          path: ./StarterApp.Test/TestResults/**/coverage.cobertura.xml
+          path: ./StarterApp.Tests/TestResults/**/coverage.cobertura.xml
           if-no-files-found: error
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: ./StarterApp.Test/TestResults
+          path: ./StarterApp.Tests/TestResults
           if-no-files-found: error

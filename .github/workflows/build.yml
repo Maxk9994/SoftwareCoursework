@@ -2,9 +2,7 @@ name: Build & Test
 
 on:
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -39,7 +37,6 @@ jobs:
         run: |
           if (Test-Path StarterApp.Tests/TestResults) { Remove-Item StarterApp.Tests/TestResults -Recurse -Force }
           if (Test-Path coverage-report) { Remove-Item coverage-report -Recurse -Force }
-
       - name: Restore test project
         run: dotnet restore ./StarterApp.Tests/StarterApp.Tests.csproj
 

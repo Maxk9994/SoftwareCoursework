@@ -114,8 +114,6 @@ public async Task<bool> HasDateOverlapAsync(Rental rental, string token)
     foreach (var existingRental in existingBookings)
     {
         // Date ranges overlap when each rental starts before the other one ends.
-        // Example overlap rule:
-        // newStart < existingEnd && existingStart < newEnd
         var datesOverlap =
             rental.StartDate.Date < existingRental.EndDate.Date &&
             existingRental.StartDate.Date < rental.EndDate.Date;

@@ -8,37 +8,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
-    name: Build and Test
+  build:
     runs-on: windows-latest
-
-    services:
-      postgres:
-        image: postgis/postgis:16-3.4
-        env:
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_password
-          POSTGRES_DB: test_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U test_user -d test_db"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    env:
-      ConnectionStrings__DefaultConnection: Host=localhost;Port=5432;Database=test_db;Username=test_user;Password=test_password
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .NET 10 Preview
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
           dotnet-quality: 'preview'
+
+      - name: Show project files
+        shell: pwsh
+        run: Get-ChildItem -Recurse -Filter *.csproj
+
+      - name: Restore MAUI workloads
+        run: dotnet workload restore ./StarterApp/StarterApp.csproj
 
       - name: Restore database project
         run: dotnet restore ./StarterApp.Database/StarterApp.Database.csproj
@@ -46,25 +34,45 @@ jobs:
       - name: Build database project
         run: dotnet build ./StarterApp.Database/StarterApp.Database.csproj --configuration Release --no-restore
 
+      - name: Clean old test results
+        shell: pwsh
+        run: |
+          if (Test-Path StarterApp.Tests/TestResults) { Remove-Item StarterApp.Tests/TestResults -Recurse -Force }
+          if (Test-Path coverage-report) { Remove-Item coverage-report -Recurse -Force }
+
       - name: Restore test project
         run: dotnet restore ./StarterApp.Tests/StarterApp.Tests.csproj
 
       - name: Build test project
         run: dotnet build ./StarterApp.Tests/StarterApp.Tests.csproj --configuration Release --no-restore
 
-      - name: Run tests with code coverage
+      - name: Run tests with coverage
         run: dotnet test ./StarterApp.Tests/StarterApp.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./StarterApp.Tests/TestResults
 
-      - name: Upload coverage report
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate coverage report
+        run: |
+          reportgenerator `
+            -reports:"StarterApp.Tests/TestResults/**/coverage.cobertura.xml" `
+            -targetdir:"coverage-report" `
+            -reporttypes:"Html;MarkdownSummaryGithub"
+
+      - name: Show coverage summary in GitHub
+        shell: pwsh
+        run: Get-Content coverage-report/SummaryGithub.md | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append
+
+      - name: Upload HTML coverage report
         uses: actions/upload-artifact@v4
         with:
-          name: code-coverage-report
-          path: ./StarterApp.Tests/TestResults/**/coverage.cobertura.xml
+          name: coverage-html-report
+          path: coverage-report
           if-no-files-found: error
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: ./StarterApp.Tests/TestResults
+          path: StarterApp.Tests/TestResults/**
           if-no-files-found: error

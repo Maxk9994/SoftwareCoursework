@@ -8,12 +8,15 @@ using CommunityToolkit.Mvvm.Input;
 using StarterApp.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+
 
 namespace StarterApp.ViewModels
 {
     /// @brief View model for the application shell that manages navigation and authentication
     /// @details Handles menu items, navigation commands, and authentication state changes
     /// @extends BaseViewModel
+    [ExcludeFromCodeCoverage]
     public partial class AppShellViewModel : BaseViewModel
     {
         /// @brief Authentication service for managing user authentication

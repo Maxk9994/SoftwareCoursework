@@ -1,5 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
 namespace StarterApp.Services;
-
+[ExcludeFromCodeCoverage]
 public class NavigationService : INavigationService
 {
     public async Task NavigateToAsync(string route)

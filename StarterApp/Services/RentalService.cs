@@ -42,8 +42,7 @@ public class RentalService : IRentalService
 /// </exception>
 public async Task<Rental?> ApproveRentalAsync(Rental rental, string token)
 {
-    // Business rule: do not allow two approved/active rentals for the same item
-    // to overlap in date range.
+    // Business rule: do not allow two approved/active rentals for the same item to overlap in date range.
     var hasOverlap = await HasDateOverlapAsync(rental, token);
 
     if (hasOverlap)

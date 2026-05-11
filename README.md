@@ -89,3 +89,12 @@ Before using this app, ensure you have:
 
 For a comprehensive guide on using this app and understanding its architecture, see the
 [MAUI + MVVM + Database Tutorial](https://edinburgh-napier.github.io/SET09102/tutorials/csharp/maui-mvvm-database/).
+
+
+### Tests
+
+To run tests naviagate to the terminal then run
+
+```bash
+dotnet test StarterApp.Tests/StarterApp.Tests.csproj
+```
